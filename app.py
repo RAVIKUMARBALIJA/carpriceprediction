@@ -2,11 +2,12 @@ from flask import Flask,request,render_template
 import pandas as pd 
 import numpy as np 
 import pickle
+import os
 
+webapp_root = "webapp"
+template_dir = os.path.join(webapp_root,"templates")
 
-
-
-app = Flask(__name__)
+app = Flask(__name__,template_folder=template_dir)
 model= pickle.load(open("car_prediction_model.pkl","rb"))
 @app.route("/",methods=["GET","POST"])
 def Home():
@@ -14,7 +15,7 @@ def Home():
 
 @app.route("/predict",methods=["POST"])
 def predict():
-    Fuel_Type_Diesel = 0;
+    Fuel_Type_Diesel = 0
     if request.form:
         print(request.form)
         year = int(request.form["Year"])
@@ -40,7 +41,7 @@ def predict():
             Seller_Type_Individual = 0
         Transmission_Mannual = request.form["Transmission_Mannual"]
         if(Transmission_Mannual == "Mannual"):
-            Transmission_Mannual = 1;
+            Transmission_Mannual = 1
         else:
             Transmission_Mannual = 0
            
